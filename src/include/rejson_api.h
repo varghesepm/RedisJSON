@@ -42,18 +42,21 @@ typedef struct RedisJSONAPI_V1 {
      * else REDISMODULE_ERR is returned
      **/
     int (*getInt)(RedisJSON json, long long *integer);
+    int (*getIntFromKey)(RedisJSONKey key, const char *path, long long *integer);
 
     int (*getDouble)(RedisJSON json, double *dbl);
+    int (*getDoubleFromKey)(RedisJSONKey key, const char *path, double *dbl);
 
     int (*getBoolean)(RedisJSON json, int *boolean);
+    int (*getBooleanFromKey)(RedisJSONKey key, const char *path, int *boolean);
 
     // Callee has ownership of `str` - valid until api `close` is called
-    int (*getString)(RedisJSON json, const char *path, const char **str, size_t *len);
+    int (*getString)(RedisJSON json, const char **str, size_t *len);
+    int (*getStringFromKey)(RedisJSONKey key, const char *path, const char **str, size_t *len);
 
     // Caller gains ownership of `str`
-    int (*getRedisModuleString)(RedisModuleCtx *ctx, RedisJSON json, const char *path, RedisModuleString **str);
-
-    int (*replyWith)(RedisModuleCtx *ctx, RedisJSON json);
+    int (*getRedisModuleString)(RedisJSON json, RedisModuleString **str);
+    int (*getRedisModuleStringFromKey)(RedisJSONKey key, const char *path, RedisModuleString **str);
 } RedisJSONAPI_V1;
 
 #ifdef __cplusplus
